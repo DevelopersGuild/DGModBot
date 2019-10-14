@@ -3,17 +3,19 @@ const bot = new Discord.Client();
 require('dotenv').config();
 
 
-
 const RoboCommands = (msg) => ({
     "website": () => msg.reply('https://www.da-developers.dev'),
-    "bot info": () => msg.reply('Version 1.0.1')
+    "bot info": () => msg.reply('Version 1.0.1'), 
+    "hits vape": () => msg.reply('🥬💨'),
+    "YEET": () => msg.reply('YOTE'),
+    "ping": () => msg.reply('🏓pong')
 });
 
 /**
  * Handles incoming messages for Robo
  */
 const handleMessage = (msg) => {
-    const PREFIX = 'D!';
+    const PREFIX = 'DG!';
     const msgs = msg.content.split(" ")
     const roboCommands = RoboCommands(msg);
     if (msgs[0] == PREFIX) {
@@ -37,10 +39,9 @@ bot.on('ready', () => console.log('Robo is on.'));
 bot.on('guildMemberAdd', member => {
     const channel = member.guild.channels.find(ch => ch.name === 'general');
     if (!channel) return;
-    // Adds the new member to Unapproved role
+    // Set new members to 'Unapproved' role
     var role = member.guild.roles.find('name', 'Unapproved');
     member.addRole(role);
-    //Introduction
     channel.send(`Welcome to the server, ${member} be sure to read #rules 👋`);
 });
 
