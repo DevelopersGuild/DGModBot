@@ -1,6 +1,6 @@
 {
   "name": "dgmodbot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Developers' Guild Moderator Bot",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,13 @@
   "keywords": [
     "DG"
   ],
-  "author": "",
+  "contributors": [
+    "Johnny aka Drabblesaur <tojohnny1559@gmail.com> (https://www.da-developers.dev)",
+    "Carlos Alba <soradev4@gmail.com> (https://www.carlosalba.us)"
+  ],
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.1.0"
   }
 }
