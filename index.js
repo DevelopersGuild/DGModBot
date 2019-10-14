@@ -5,7 +5,8 @@ require('dotenv').config();
 
 const RoboCommands = (msg) => ({
     "website": () => msg.reply('https://www.da-developers.dev'),
-    "bot info": () => msg.reply('Version 1.0.1')
+    "bot info": () => msg.reply('Version 1.0.1'), 
+    "hits vape": () => msg.reply('🥬💨'),
 });
 
 /**
