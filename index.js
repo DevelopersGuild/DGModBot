@@ -37,12 +37,20 @@ const handleMessage = (msg) => {
 bot.on('ready', () => console.log('Robo is on.'));
 
 bot.on('guildMemberAdd', member => {
-    const channel = member.guild.channels.find(ch => ch.name === 'general');
+    const channel = member.guild.channels.find(ch => ch.name === 'welcome');
     if (!channel) return;
     // Set new members to 'Unapproved' role
     let role = member.guild.roles.find('name', 'Unapproved');
     member.addRole(role);
     channel.send(`Welcome to the server, ${member} be sure to read #rules 👋`);
+});
+
+bot.on('message', message =>{
+    const channel = message.guild.channels.find(ch => ch.name === 'rules');
+    if (!channel) return;
+    let role = message.member.guild.roles.find('name','Unapproved');
+    message.member.removeRole(role);
+    message.delete();
 });
 
 bot.on('message', message => handleMessage(message));
