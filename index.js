@@ -2,24 +2,33 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 require('dotenv').config();
 
-const PREFIX = 'DG!';
+
+const RoboCommands = (msg) => ({
+    "website": () => msg.reply('https://www.da-developers.dev'),
+    "bot info": () => msg.reply('Version 1.0.1')
+});
 
 /**
  * Handles incoming messages for Robo
  */
 const handleMessage = (msg) => {
-    let args = msg.content.substring(PREFIX.length).split(" ");
-    const {
-        sendMessage
-    } = msg.channel;
-    switch (args[0]) {
-        case 'website':
-            sendMessage('da-developers.dev');
-            break;
-        case 'info':
-            (args[1] === 'version') ? sendMessage('Version 1.0.1'): sendMessage('Invalid args')
-            break;
+    const PREFIX = 'DG!';
+    const msgs = msg.content.split(" ")
+    const roboCommands = RoboCommands(msg);
+    if (msgs[0] == PREFIX) {
+        // getting rid of DG! prefix
+        msgs.splice(0, 1);
+        if (msgs.length === 0 || msgs == undefined) {
+            msg.reply('At least one argument is needed to complete a task.');
+        } else {
+            if (roboCommands[msgs.join(" ")]) {
+                roboCommands[msgs.join(" ")]();
+            } else {
+                msg.reply('The command you entered is could not be found.')
+            }
+        }
     }
+
 }
 
 bot.on('ready', () => console.log('Robo is on.'))
