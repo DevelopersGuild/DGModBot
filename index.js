@@ -40,7 +40,7 @@ bot.on('guildMemberAdd', member => {
     const channel = member.guild.channels.find(ch => ch.name === 'general');
     if (!channel) return;
     // Set new members to 'Unapproved' role
-    var role = member.guild.roles.find('name', 'Unapproved');
+    let role = member.guild.roles.find('name', 'Unapproved');
     member.addRole(role);
     channel.send(`Welcome to the server, ${member} be sure to read #rules 👋`);
 });
