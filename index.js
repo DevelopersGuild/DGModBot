@@ -1,32 +1,49 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
+require('dotenv').config();
 
-const token = 'GET THE TOKEN!';
 
-const PREFIX = 'DG!';
-bot.on('ready', () => {
-    console.log('DGMODBOT ONLINE');
-})
 
-bot.on('message', message=>{
-    let args = message.content.substring(PREFIX.length).split(" ");
-    
-    switch(args[0]){
-        case 'ping':
-            message.reply('pong');
-            break;
-        case 'website':
-            message.channel.sendMessage('da-developers.dev');
-            break;
-        case 'info':
-            if (args[1]=== 'version'){
-                message.channel.sendMessage('Version 1.0.1');
-            }else{
-                message.channel.sendMessage('Invalid args')
+const RoboCommands = (msg) => ({
+    "website": () => msg.reply('https://www.da-developers.dev'),
+    "bot info": () => msg.reply('Version 1.0.1')
+});
+
+/**
+ * Handles incoming messages for Robo
+ */
+const handleMessage = (msg) => {
+    const PREFIX = 'D!';
+    const msgs = msg.content.split(" ")
+    const roboCommands = RoboCommands(msg);
+    if (msgs[0] == PREFIX) {
+        // getting rid of DG! prefix
+        msgs.splice(0, 1);
+        if (msgs.length === 0 || msgs == undefined) {
+            msg.reply('At least one argument is needed to complete a task.');
+        } else {
+            if (roboCommands[msgs.join(" ")]) {
+                roboCommands[msgs.join(" ")]();
+            } else {
+                msg.reply('The command you entered is could not be found.')
             }
-            break; 
+        }
     }
 
+}
 
-})
-bot.login(token);
+bot.on('ready', () => console.log('Robo is on.'));
+
+bot.on('guildMemberAdd', member => {
+    const channel = member.guild.channels.find(ch => ch.name === 'general');
+    if (!channel) return;
+    // Adds the new member to Unapproved role
+    var role = member.guild.roles.find('name', 'Unapproved');
+    member.addRole(role);
+    //Introduction
+    channel.send(`Welcome to the server, ${member} be sure to read #rules 👋`);
+});
+
+bot.on('message', message => handleMessage(message));
+
+bot.login(process.env.DISCORD_TOKEN);
