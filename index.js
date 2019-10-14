@@ -1,32 +1,29 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-
-const token = 'GET THE TOKEN!';
+require('dotenv').config();
 
 const PREFIX = 'DG!';
-bot.on('ready', () => {
-    console.log('DGMODBOT ONLINE');
-})
 
-bot.on('message', message=>{
-    let args = message.content.substring(PREFIX.length).split(" ");
-    
-    switch(args[0]){
-        case 'ping':
-            message.reply('pong');
-            break;
+/**
+ * Handles incoming messages for Robo
+ */
+const handleMessage = (msg) => {
+    let args = msg.content.substring(PREFIX.length).split(" ");
+    const {
+        sendMessage
+    } = msg.channel;
+    switch (args[0]) {
         case 'website':
-            message.channel.sendMessage('da-developers.dev');
+            sendMessage('da-developers.dev');
             break;
         case 'info':
-            if (args[1]=== 'version'){
-                message.channel.sendMessage('Version 1.0.1');
-            }else{
-                message.channel.sendMessage('Invalid args')
-            }
-            break; 
+            (args[1] === 'version') ? sendMessage('Version 1.0.1'): sendMessage('Invalid args')
+            break;
     }
+}
 
+bot.on('ready', () => console.log('Robo is on.'))
 
-})
-bot.login(token);
+bot.on('message', message => handleMessage(message));
+
+bot.login(process.env.DISCORD_TOKEN);
