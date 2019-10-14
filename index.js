@@ -31,7 +31,13 @@ const handleMessage = (msg) => {
 
 }
 
-bot.on('ready', () => console.log('Robo is on.'))
+bot.on('ready', () => console.log('Robo is on.'));
+
+bot.on('guildMemberAdd', member => {
+    const channel = member.guild.channels.find(ch => ch.name === 'general');
+    if (!channel) return;
+    channel.send(`Welcome to the server, ${member} be sure to read #rules 👋`);
+});
 
 bot.on('message', message => handleMessage(message));
 
