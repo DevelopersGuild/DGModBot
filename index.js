@@ -7,6 +7,8 @@ const RoboCommands = (msg) => ({
     "website": () => msg.reply('https://www.da-developers.dev'),
     "bot info": () => msg.reply('Version 1.0.1'), 
     "hits vape": () => msg.reply('🥬💨'),
+    "YEET": () => msg.reply('YOTE'),
+    "ping": () => msg.reply('🏓pong')
 });
 
 /**
@@ -37,6 +39,9 @@ bot.on('ready', () => console.log('Robo is on.'));
 bot.on('guildMemberAdd', member => {
     const channel = member.guild.channels.find(ch => ch.name === 'general');
     if (!channel) return;
+    // Set new members to 'Unapproved' role
+    let role = member.guild.roles.find('name', 'Unapproved');
+    member.addRole(role);
     channel.send(`Welcome to the server, ${member} be sure to read #rules 👋`);
 });
 
