@@ -11,6 +11,10 @@ const RoboCommands = (msg) => ({
     "ping": () => msg.reply('🏓pong')
 });
 
+const LeadCommands = (msg) => ({
+    "lead": () => msg.reply('👌 You are a Leadership Member')
+});
+
 /**
  * Handles incoming messages for Robo
  */
@@ -18,14 +22,20 @@ const handleMessage = (msg) => {
     const PREFIX = 'DG!';
     const msgs = msg.content.split(" ")
     const roboCommands = RoboCommands(msg);
+    let role = msg.member.guild.roles.find('name','Leadership')
     if (msgs[0] == PREFIX) {
         // getting rid of DG! prefix
         msgs.splice(0, 1);
         if (msgs.length === 0 || msgs == undefined) {
             msg.reply('At least one argument is needed to complete a task.');
         } else {
-            if (roboCommands[msgs.join(" ")]) {
-                roboCommands[msgs.join(" ")]();
+            if (roboCommands[msgs.join(" ")] || LeadCommands[msgs.join(" ")] ) {
+                if(role.id === msg.member.guild.roles.find('name','Leadership').id){
+                    roboCommands[msgs.join(" ")]();
+                    LeadCommands[msgs.join(" ")];
+                }else{
+                    roboCommands[msgs.join(" ")]();
+                }
             } else {
                 msg.reply('The command you entered is could not be found.')
             }
