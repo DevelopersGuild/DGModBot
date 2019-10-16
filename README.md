@@ -1,5 +1,5 @@
-# DGModBot
-(DISCORD) Developers' Guild Moderator Bot
+# DGModBot (ROBO)
+(DISCORD) Developers' Guild Moderator Bot (ROBO)
 #### NOTE
 This is just the code only! You'll need the DGModBot Token in order for this program to work properly. That means if you want to edit the existing bot on the DG Discord, you'll need to contact on the Development Team Members.
 

@@ -46,11 +46,13 @@ bot.on('guildMemberAdd', member => {
 });
 
 bot.on('message', message =>{
-    const channel = message.guild.channels.find(ch => ch.name === 'rules');
-    if (!channel) return;
+    if(message.channel.name == 'rules'){
     let role = message.member.guild.roles.find('name','Unapproved');
     message.member.removeRole(role);
-    message.delete();
+    message.delete(0)
+    .then(msg => console.log(`Deleted message from ${msg.author.username}`))
+    .catch(console.error);
+    }
 });
 
 bot.on('message', message => handleMessage(message));
