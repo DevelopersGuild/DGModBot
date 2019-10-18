@@ -20,32 +20,32 @@ const TonyCommands = (msg) => ({
  */
 const handleMessage = (msg) => {
     const PREFIX = 'DG!';
-    const TonyKey = 'Tony=>'
-    const msgs = msg.content.split(" ")
+    const TonyKey = 'Tony=>';
+    const msgs = msg.content.split(" ");
+    const tonyCommands = TonyCommands(msg);
     const roboCommands = RoboCommands(msg);
-    let role = msg.member.guild.roles.find('name', 'Leadership')
-    if (msgs[0] == PREFIX) {
-        // getting rid of DG! prefix
-        msgs.splice(0, 1);
-        if (msgs[0] == TonyKey) {
-            if (msgs.length === 0 || msgs == undefined) {
-                msg.reply('At least one argument is needed to complete a task.');
-            } else {
-                if (TonyCommands[msgs.join(" ")]) {
-                    TonyCommands[msgs.join(" ")]();
-                } else {
-                    msg.reply('The command you entered is could not be found.')
-                }
-            }
-        }
-        if (msgs.length === 0 || msgs == undefined) {
-            msg.reply('At least one argument is needed to complete a task.');
+    // let role = msg.member.guild.roles.find('name', 'Leadership');
+
+    //todo: check for leadership priviliges 
+    // leadership commands
+    if (msgs[0] === PREFIX && msgs[1] === TonyKey) {
+        // cutting prefixes
+        msgs.splice(0, 2);
+        if (msgs.length === 0 || msgs === undefined) {
+            msg.reply('At least one argument is need to complete a command.');
         } else {
-            if (roboCommands[msgs.join(" ")]) {
-                roboCommands[msgs.join(" ")]();
-            } else {
-                msg.reply('The command you entered is could not be found.')
-            }
+            // ternary check for tony commands in map.
+            (tonyCommands[msgs.join(" ")]) ? tonyCommands[msgs.join(" ")](): msg.reply('The command you entered is could not be found.');
+        }
+    } else if (msgs[0] === PREFIX) {
+        // non leadership commands
+        // cutting prefix
+        msgs.splice(0, 1);
+        if (msgs.length === 0 || msgs === undefined) {
+            msg.reply('At least one argument is need to complete a command.');
+        } else {
+            // ternary check for function in robocommands map
+            (roboCommands[msgs.join(" ")]) ? roboCommands[msgs.join(" ")](): msg.reply('The command you entered is could not be found.');
         }
     }
 
