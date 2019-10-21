@@ -24,18 +24,17 @@ const handleMessage = (msg) => {
     const msgs = msg.content.split(" ");
     const tonyCommands = TonyCommands(msg);
     const roboCommands = RoboCommands(msg);
-    // let role = msg.member.guild.roles.find('name', 'Leadership');
-
-    //todo: check for leadership priviliges 
+    let Leadrole = msg.member.guild.roles.find('name', 'Leadership');
+  
     // leadership commands
-    if (msgs[0] === PREFIX && msgs[1] === TonyKey) {
+    if ((msgs[0] === PREFIX && msgs[1] === TonyKey) && (msg.member.roles.has(Leadrole.id))) {
         // cutting prefixes
         msgs.splice(0, 2);
         if (msgs.length === 0 || msgs === undefined) {
             msg.reply('At least one argument is need to complete a command.');
         } else {
             // ternary check for tony commands in map.
-            (tonyCommands[msgs.join(" ")]) ? tonyCommands[msgs.join(" ")](): msg.reply('The command you entered is could not be found.');
+            (tonyCommands[msgs.join(" ")]) ? tonyCommands[msgs.join(" ")]() : msg.reply('The command you entered is could not be found.');
         }
     } else if (msgs[0] === PREFIX) {
         // non leadership commands
@@ -45,7 +44,7 @@ const handleMessage = (msg) => {
             msg.reply('At least one argument is need to complete a command.');
         } else {
             // ternary check for function in robocommands map
-            (roboCommands[msgs.join(" ")]) ? roboCommands[msgs.join(" ")](): msg.reply('The command you entered is could not be found.');
+            (roboCommands[msgs.join(" ")]) ? roboCommands[msgs.join(" ")]() : msg.reply('The command you entered is could not be found.');
         }
     }
 
@@ -53,6 +52,7 @@ const handleMessage = (msg) => {
 
 bot.on('ready', () => console.log('Robo is on.'));
 
+// When a new member joins the Discord
 bot.on('guildMemberAdd', member => {
     const channel = member.guild.channels.find(ch => ch.name === 'welcome');
     if (!channel) return;
@@ -62,13 +62,18 @@ bot.on('guildMemberAdd', member => {
     channel.send(`Welcome to the server, ${member} be sure to read #rules 👋`);
 });
 
+// When a new member finishes reading the rules
 bot.on('message', message => {
+    let Unrole = message.member.guild.roles.find('name', 'Unapproved');
     if (message.channel.name == 'rules') {
-        let role = message.member.guild.roles.find('name', 'Unapproved');
-        message.member.removeRole(role);
+        if (message.content === 'READ') {
+            if (message.member.roles.has(Unrole.id)) {
+                message.member.removeRole(Unrole);
+            }
+        }
         message.delete(0)
-            .then(msg => console.log(`Deleted message from ${msg.author.username}`))
-            .catch(console.error);
+        .then(msg => console.log(`Deleted message from ${msg.author.username}`))
+        .catch(console.error);
     }
 });
 
