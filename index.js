@@ -25,8 +25,7 @@ const handleMessage = (msg) => {
     const tonyCommands = TonyCommands(msg);
     const roboCommands = RoboCommands(msg);
     let Leadrole = msg.member.guild.roles.find('name', 'Leadership');
-
-    //todo: check for leadership priviliges
+  
     // leadership commands
     if ((msgs[0] === PREFIX && msgs[1] === TonyKey) && (msg.member.roles.has(Leadrole.id))) {
         // cutting prefixes
