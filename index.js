@@ -12,7 +12,8 @@ const RoboCommands = (msg) => ({
 });
 
 const TonyCommands = (msg) => ({
-    "lead": () => msg.reply('👌 You are a Leadership Member')
+    "leadCheck": () => msg.reply('👌 You are a Leadership Member'),
+    "setLead": () => addLeader(message)
 });
 
 /**
@@ -47,6 +48,13 @@ const handleMessage = (msg) => {
             (roboCommands[msgs.join(" ")]) ? roboCommands[msgs.join(" ")]() : msg.reply('The command you entered is could not be found.');
         }
     }
+
+}
+/**
+ * Adds a member into the Leadership role.
+ */
+const addLeader = (msg) => {
+    msg.author.send()
 
 }
 
